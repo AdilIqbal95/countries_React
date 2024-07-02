@@ -1,18 +1,26 @@
 import { useState, useEffect } from "react";
 import CountriesList from "../components/CountriesList";
-import VisitedCountriesList from "../components/VisitedCountriesList";
 import '../CountriesContainer.css';
 
 
 const CountriesContainer = () => {
 
     const [countriesData, setCountriesData] = useState(null)
+    const [countries, setCountries] = useState([])
     const [vistedCountries, setVisitedCountries] = useState([])
+
 
     const fetchCountries = async () => {
         const response = await fetch("https://restcountries.com/v3.1/all")
         const data = await response.json()
         setCountriesData(data)
+
+        const transformedData = data.map(country => ({
+            countryName: country.name.common,
+            visited: false
+        }));
+        
+        setCountries(transformedData);
     }
 
     useEffect(() => {
@@ -20,17 +28,12 @@ const CountriesContainer = () => {
     }, [])
 
 
-
     return (
-        <>
-            <section id="countries-list-section">
-                <article>
-                    {countriesData ? <CountriesList countriesData={countriesData}/> : <p>Loading data...</p>}
-                </article>
-                <article>
-                    <VisitedCountriesList />
-                </article>
-            </section>
+        <>       
+            {countries ? <CountriesList countries={countries} 
+            visitedCountries={vistedCountries}
+            setVisitedCountries={setVisitedCountries}/> : 
+            <p>Loading data...</p>}
         </>
     )
 

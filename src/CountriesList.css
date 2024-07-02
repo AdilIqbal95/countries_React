@@ -1,6 +1,10 @@
+#countries-list-section {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
 .country-item-div {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     padding: 1rem 1rem 1rem 1rem; 
 }
-
